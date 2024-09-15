@@ -1,10 +1,10 @@
-# ravencoin-rpc-proxy
+# Aidpcoin-rpc-proxy
 
-## A Web API for Ravencoin
+## A Web API for Aidpcoin
 
-**Purpose**: make Ravencoin blockchain available via HTTP/WEB by exposing the RPC-API via a Proxy that only allows safe procedures.
+**Purpose**: make Aidpcoin blockchain available via HTTP/WEB by exposing the RPC-API via a Proxy that only allows safe procedures.
 
-Check out this software live at https://rpc.ting.finance/
+Check out this software live at https://rpc-main.ai-depin.org/
 ![image](https://user-images.githubusercontent.com/9694984/226344965-7f01cee1-99ef-4a7f-b9db-8cfce4ccb5e8.png)
 
 
@@ -46,7 +46,7 @@ rpc("getaddressbalance", [{ "addresses": ["RXissueSubAssetXXXXXXXXXXXXXWcwhwL"] 
 
 async function rpc(method, params) {
     const data = { method, params };
-    const URL = 'https://rvn-rpc-mainnet.ting.finance/rpc'; //replace with your endpoint
+    const URL = 'https://aidp-rpc-mainnet.ai-depin.org/rpc'; //replace with your endpoint
     const response = await fetch(URL, {
         method: 'POST',
         headers: {
@@ -71,7 +71,7 @@ According to JSON-RPC 2.0 a request object could contain four attributes, jsonrp
 
 ## How to install
 ```
-git clone https://github.com/ravenrebels/ravencoin-rpc-proxy.git
+git clone https://github.com/aidpproject/aidpcoin-rpc-proxy.git
 cd ravencoin-rpc-proxy
 npm install 
 ```
@@ -81,19 +81,19 @@ Configure your setup in ./config.json
 ```
 {
   "concurrency": 4,
-  "endpoint": "https://rpc.ting.finance/rpc",
-  "environment": "Ravencoin Testnet",
+  "endpoint": "https://rpc-main.ai-depin.org/rpc",
+  "environment": "Aidpcoin",
   "local_port": 9999,
   "nodes": [
     {
       "name": "Node number 1",
       "username": "dauser",
       "password": "dapassword",
-      "raven_url": "http://localhost:8888"
+      "aidp_url": "http://localhost:8888"
     },
     {
       "name": "Nody two tower", 
-      "raven_url": "http://127.0.0.1:8766",
+      "aidp_url": "http://127.0.0.1:18001",
       "password": "supermega2354ergsecret",
       "username": "supermegas3435ecwertwertret"
     }
@@ -102,7 +102,7 @@ Configure your setup in ./config.json
 
   ```
 
-### Sir, how should my Raven core node be configured?
+### Sir, how should my Aidp core node be configured?
 Here is a recommendation
 ```
 server=1 
@@ -139,12 +139,12 @@ dbcache=4096
 npm start
 ```
 
-## Help with Ravencoin RPC calls, arguments and stuff
-Go to https://rvn-rpc-mainnet.ting.finance/ for in depth description of each RPC call
+## Help with Aidpcoin RPC calls, arguments and stuff
+Go to https://aidp-rpc-mainnet.ai-depin.org/ for in depth description of each RPC call
 ![image](https://user-images.githubusercontent.com/9694984/212323158-6ed00511-cfcc-4338-990c-ebb57f590cf0.png)
 
 
-## List of Ravencoin RPC calls
+## List of Aidpcoin RPC calls
 This is a raw list, a lot of these calls are not whitelisted.
 For example we do NOT let developers call procedure `dumpprivkey`
 ```
@@ -168,8 +168,8 @@ listmyassets "( asset )" ( verbose ) ( count ) ( start ) (confs)
 purgesnapshot "asset_name" block_height
 reissue "asset_name" qty "to_address" "change_address" ( reissuable ) ( new_units) "( new_ipfs )" 
 transfer "asset_name" qty "to_address" "message" expire_time "change_address" "asset_change_address"
-transferfromaddress "asset_name" "from_address" qty "to_address" "message" expire_time "rvn_change_address" "asset_change_address"
-transferfromaddresses "asset_name" ["from_addresses"] qty "to_address" "message" expire_time "rvn_change_address" "asset_change_address"
+transferfromaddress "asset_name" "from_address" qty "to_address" "message" expire_time "aidp_change_address" "asset_change_address"
+transferfromaddresses "asset_name" ["from_addresses"] qty "to_address" "message" expire_time "aidp_change_address" "asset_change_address"
 
 == Blockchain ==
 clearmempool
@@ -303,7 +303,7 @@ abortrescan
 addmultisigaddress nrequired ["key",...] ( "account" )
 addwitnessaddress "address"
 backupwallet "destination"
-bumpfee has been deprecated on the RVN Wallet.
+bumpfee has been deprecated on the aidp Wallet.
 dumpprivkey "address"
 dumpwallet "filename"
 encryptwallet "passphrase"

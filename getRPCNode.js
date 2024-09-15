@@ -1,12 +1,12 @@
-const RavencoinRPC = require("@ravenrebels/ravencoin-rpc");
+const AidpcoinRPC = require("@aidpproject/aidpcoin-rpc");
 
 const getConfig = require("./getConfig");
 const config = getConfig();
 const allNodes = [];
 
-//At startup initialize all RPCs, you can have one or multiple Ravencoin nodes
+//At startup initialize all RPCs, you can have one or multiple Aidpcoin nodes
 for (const node of config.nodes) {
-  const rpc = RavencoinRPC.getRPC(node.username, node.password, node.raven_url);
+  const rpc = AidpcoinRPC.getRPC(node.username, node.password, node.aidp_url);
   allNodes.push({ name: node.name, rpc });
 }
 
