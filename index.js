@@ -1,12 +1,20 @@
+const https = require('https');      
+const http = require('http');        
+const fs = require('fs');            
+const express = require('express');  
 const { methods } = require("@aidpproject/aidpcoin-rpc");
 const { getRPCNode, getNodes } = require("./getRPCNode");
 const { default: PQueue } = require("p-queue"); //NOTE version 6 with support for CommonJS
 const process = require("process"); //to get memory used
 const cacheService = require("./cacheService");
 const cors = require("cors");
-const express = require("express");
 const getConfig = require("./getConfig");
 const { whitelist, isWhitelisted } = require("./whitelist");
+// Load SSL Certificate
+const sslOptions = {
+  key: fs.readFileSync('/path/to/private.key'),  // SSL Private Key
+  cert: fs.readFileSync('/path/to/certificate.crt')  // SSL Certificate
+};
 
 let numberOfRequests = 0;
 
@@ -235,8 +243,7 @@ app.post("/rpc", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(
-    `RPC Proxy listening on path /rpc on port port ${port}, call me later`
-  );
+// Serveur HTTPS
+https.createServer(sslOptions, app).listen(443, () => {
+  console.log('Serveur HTTPS démarré sur le port 443');
 });

@@ -77,19 +77,72 @@ npm install
 ```
 
 ### Sir, how do I configure this software?
+
+Configure SSL 
+
+   1 Install snapd:
+
+      sudo apt install snapd
+
+   2 Ensure that snapd is up to date:
+
+      sudo snap install core; sudo snap refresh core
+
+   3 Install certbot (full install instructions for different operating systems and configurations can be found here: https://certbot.eff.org/instructions):
+
+      sudo snap install --classic certbot
+
+   4 Prepare the certbot command:
+
+      sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+   5 Follow the steps below to configure the Express webserver for use with TLS/SSL:
+
+If you haven't already done so, run the setcap cmd from the Use Setcap to Safely Grant User Permissions Instructions which will allow node.js to bind to port 443 without needing root permissions.
+
+There are different options for generating a valid TLS/SSL certificate via certbot. If you are running the explorer on port 80 you can run the cmd on step 2A), otherwise run the cmd on step 2B) if the explorer is running on any port # other than 80. This step is important because certbot will automatically renew your TLS/SSL certificate periodically and it will fail to renew if the wrong option is chosen:
+
+A. The Webroot method is used when port 80 is already in use by the explorer. Be sure to change the webroot-path to the absolute path of the explorer/public directory:
+
+NOTE: The explorer must be running for this cmd to work properly:
+
+      sudo certbot certonly --webroot --webroot-path /path/to/explorer/public
+
+B. The Standalone method is used when port 80 is not already in use by the explorer:
+
+      sudo certbot certonly --standalone
+
+Certbot will ask a few simple questions and generate the necessary TLS/SSL certificate files for your domain. It will also install the necessary files to automatically renew the certificates when they are about to expire, so you shouldn't need to do anything special to keep them up to date.
+
+Once the TLS/SSL certificates are generated, you will need to grant permission to non-root users with the following commands:
+
+      sudo chmod -R 755 /etc/letsencrypt/live/
+      sudo chmod -R 755 /etc/letsencrypt/archive/
+
+
+Configure ./index.js
+```
+const sslOptions = {
+  key: fs.readFileSync('/path/to/private.key'),  // SSL Private Key
+  cert: fs.readFileSync('/path/to/certificate.crt')  // SSL Certificate
+};
+
+  ```
+
+
 Configure your setup in ./config.json
 ```
 {
   "concurrency": 4,
-  "endpoint": "https://rpc-main.ai-depin.org/rpc",
+  "endpoint": "https://aidp-rpc-mainnet.ai-depin.org/rpc",
   "environment": "Aidpcoin",
-  "local_port": 9999,
+  "local_port": 443,
   "nodes": [
     {
       "name": "Node number 1",
       "username": "dauser",
       "password": "dapassword",
-      "aidp_url": "http://localhost:8888"
+      "aidp_url": "http://localhost:18001"
     },
     {
       "name": "Nody two tower", 
